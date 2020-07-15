@@ -14,7 +14,6 @@ public class CardDeliveryTest {
     public Keys del = Keys.DELETE;
 
 
-
     @Test
     void shouldInputIsCorrect() {
         open("http://localhost:9999");
@@ -24,23 +23,41 @@ public class CardDeliveryTest {
         $("[data-test-id='name'] input").setValue("Копатилов Андрей");
         $("[data-test-id='phone'] input").setValue("+79098765432");
         $("[data-test-id=agreement]").click();
-        $$(".form button").find(exactText("Забронировать")).click();
+        $$(".form button").find(exactText("Запланировать")).click();
         $(withText("Успешно!")).waitUntil(visible, 15000);
-        $("[data-test-id=notification]").shouldHave(text("Встреча успешно забронирована на"));
-        $("[data-test-id=notification]").shouldHave(text(currentDate));
+        $("[data-test-id=success-notification]").shouldHave(text("Встреча успешно запланирована на"));
+        $("[data-test-id=success-notification]").shouldHave(text(currentDate));
     }
 
     @Test
-    void shouldPhoneNotCorrect() {
+    void shouldInputIsCorrectRepeatedly() {
         open("http://localhost:9999");
         $("[data-test-id='city'] input").setValue("Хабаровск");
         $("[data-test-id='date'] input").sendKeys(selectAll, del);
         $("[data-test-id='date'] input").setValue(currentDate);
         $("[data-test-id='name'] input").setValue("Копатилов Андрей");
-        $("[data-test-id='phone'] input").setValue("89098765432");
+        $("[data-test-id='phone'] input").setValue("+79098765432");
         $("[data-test-id=agreement]").click();
-        $$("button").find(exactText("Забронировать")).click();
-        $(".input_invalid[data-test-id='phone']").shouldHave(text("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678."));
+        $$(".form button").find(exactText("Запланировать")).click();
+        $(withText("Необходимо подтверждение")).waitUntil(visible, 15000);
+        $("[data-test-id=replan-notification]").shouldHave(text("У вас уже запланирована встреча на другую дату. Перепланировать?"));
+        $$("div.notification__content > button").find(exactText("Перепланировать")).click();
+        $(withText("Успешно!")).waitUntil(visible, 15000);
+        $("[data-test-id=success-notification]").shouldHave(text("Встреча успешно запланирована на"));
+        $("[data-test-id=success-notification]").shouldHave(text(currentDate));
+    }
+
+
+    @Test
+    void shouldPhoneNotInput() {
+        open("http://localhost:9999");
+        $("[data-test-id='city'] input").setValue("Хабаровск");
+        $("[data-test-id='date'] input").sendKeys(selectAll, del);
+        $("[data-test-id='date'] input").setValue(currentDate);
+        $("[data-test-id='name'] input").setValue("Копатилов Андрей");
+        $("[data-test-id=agreement]").click();
+        $$("button").find(exactText("Запланировать")).click();
+        $(".input_invalid[data-test-id='phone']").shouldHave(text("Поле обязательно для заполнения"));
         $("[data-test-id='phone']").shouldHave(cssValue("color", "rgba(255, 92, 92, 1)"));
     }
 
@@ -53,7 +70,7 @@ public class CardDeliveryTest {
         $("[data-test-id='name'] input").setValue("Kopatilov Andrey");
         $("[data-test-id='phone'] input").setValue("+79098765432");
         $("[data-test-id=agreement]").click();
-        $$("button").find(exactText("Забронировать")).click();
+        $$("button").find(exactText("Запланировать")).click();
         $(".input_invalid[data-test-id='name']").shouldHave(text("Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы."));
     }
 
@@ -65,7 +82,7 @@ public class CardDeliveryTest {
         $("[data-test-id='date'] input").setValue(currentDate);
         $("[data-test-id='name'] input").setValue("Копатилов Андрей");
         $("[data-test-id='phone'] input").setValue("+79098765432");
-        $$("button").find(exactText("Забронировать")).click();
+        $$("button").find(exactText("Запланировать")).click();
         $("[data-test-id=agreement]").shouldHave(text("Я соглашаюсь с условиями обработки и использования моих персональных данных"));
         $(".input_invalid[data-test-id=agreement]").shouldHave(cssValue("color", "rgba(255, 92, 92, 1)"));
     }
@@ -78,7 +95,7 @@ public class CardDeliveryTest {
         $("[data-test-id='name'] input").setValue("Копатилов Андрей");
         $("[data-test-id='phone'] input").setValue("+79098765432");
         $("[data-test-id=agreement]").click();
-        $$("button").find(exactText("Забронировать")).click();
+        $$("button").find(exactText("Запланировать")).click();
         $(".input_invalid[data-test-id='city']").shouldHave(text("Поле обязательно для заполнения"));
 
     }
@@ -92,7 +109,7 @@ public class CardDeliveryTest {
         $("[data-test-id='name'] input").setValue("Копатилов Андрей");
         $("[data-test-id='phone'] input").setValue("+79098765432");
         $("[data-test-id=agreement]").click();
-        $$("button").find(exactText("Забронировать")).click();
+        $$("button").find(exactText("Запланировать")).click();
         $(".input_invalid[data-test-id='city']").shouldHave(text("Доставка в выбранный город недоступна"));
     }
 
