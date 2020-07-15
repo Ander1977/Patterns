@@ -1,6 +1,9 @@
 import com.codeborne.selenide.Condition;
+import com.github.javafaker.Faker;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Keys;
+
+import java.util.Locale;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.withText;
@@ -8,6 +11,7 @@ import static com.codeborne.selenide.Selenide.*;
 import static org.openqa.selenium.Keys.chord;
 
 public class CardDeliveryTest {
+    Faker faker = new Faker(new Locale("ru"));
     DateUtils currentDateTimePlusThreeDay = new DateUtils();
     public String currentDate = currentDateTimePlusThreeDay.localDateTime();
     public String selectAll = chord(Keys.CONTROL, "a");
@@ -20,8 +24,8 @@ public class CardDeliveryTest {
         $("[data-test-id='city'] input").setValue("Хабаровск");
         $("[data-test-id='date'] input").sendKeys(selectAll, del);
         $("[data-test-id='date'] input").setValue(currentDate);
-        $("[data-test-id='name'] input").setValue("Копатилов Андрей");
-        $("[data-test-id='phone'] input").setValue("+79098765432");
+        $("[data-test-id='name'] input").setValue("faker.fullName()");
+        $("[data-test-id='phone'] input").setValue("faker.phoneNumber()");
         $("[data-test-id=agreement]").click();
         $$(".form button").find(exactText("Запланировать")).click();
         $(withText("Успешно!")).waitUntil(visible, 15000);
