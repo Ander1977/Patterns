@@ -36,6 +36,25 @@ public class CardDeliveryTest {
         $("[data-test-id=success-notification]").shouldHave(text(currentDate));
     }
 
+    @Test
+    void shouldInputIsCorrectRepeatedly() {
+        RegistrationByNamePhone registrationData = DataGenerator.Registration.generateByNamePhone("RU");
+        open("http://localhost:9999");
+        $("[data-test-id='city'] input").setValue("Хабаровск");
+       // $("[data-test-id='date'] input").sendKeys(selectAll, del);
+       // $("[data-test-id='date'] input").setValue(currentDate);
+        $("[data-test-id='name'] input").setValue(registrationData.getFullName());
+        $("[data-test-id='phone'] input").setValue(registrationData.getPhoneNumber());
+        $("[data-test-id=agreement]").click();
+        $$(".form button").find(exactText("Запланировать")).click();
+        $(withText("Необходимо подтверждение")).waitUntil(visible, 15000);
+        $("[data-test-id=replan-notification]").shouldHave(text("У вас уже запланирована встреча на другую дату. Перепланировать?"));
+        $$("div.notification__content > button").find(exactText("Перепланировать")).click();
+        $(withText("Успешно!")).waitUntil(visible, 15000);
+        $("[data-test-id=success-notification]").shouldHave(text("Встреча успешно запланирована на"));
+        $("[data-test-id=success-notification]").shouldHave(text(currentDate));
+    }
+
 
     @Test
     void shouldPhoneNotInput() {
@@ -100,25 +119,6 @@ public class CardDeliveryTest {
         $("[data-test-id=agreement]").click();
         $$("button").find(exactText("Запланировать")).click();
         $(".input_invalid[data-test-id='city']").shouldHave(text("Доставка в выбранный город недоступна"));
-    }
-
-    @Test
-    void shouldInputIsCorrectRepeatedly() {
-        open("http://localhost:9999");
-        RegistrationByNamePhone registration = new RegistrationByNamePhone();
-        $("[data-test-id='city'] input").setValue("Хабаровск");
-        $("[data-test-id='date'] input").sendKeys(selectAll, del);
-        $("[data-test-id='date'] input").setValue(currentDate);
-        $("[data-test-id='name'] input").setValue(registration.getFullName());
-        $("[data-test-id='phone'] input").setValue(registration.getPhoneNumber());
-        $("[data-test-id=agreement]").click();
-        $$(".form button").find(exactText("Запланировать")).click();
-        $(withText("Необходимо подтверждение")).waitUntil(visible, 15000);
-        $("[data-test-id=replan-notification]").shouldHave(text("У вас уже запланирована встреча на другую дату. Перепланировать?"));
-        $$("div.notification__content > button").find(exactText("Перепланировать")).click();
-        $(withText("Успешно!")).waitUntil(visible, 15000);
-        $("[data-test-id=success-notification]").shouldHave(text("Встреча успешно запланирована на"));
-        $("[data-test-id=success-notification]").shouldHave(text(currentDate));
     }
 
 }
