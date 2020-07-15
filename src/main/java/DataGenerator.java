@@ -10,7 +10,7 @@ public class DataGenerator {
         private Registration(){}
 
         public static RegistrationByNamePhone generateByNamePhone(String locale){
-            Faker faker = new Faker(new Locale("ru"));
+            Faker faker = new Faker(new Locale("RU"));
             return new RegistrationByNamePhone(
                     faker.name().fullName(),
                     faker.phoneNumber().phoneNumber());
