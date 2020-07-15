@@ -50,9 +50,8 @@ public class CardDeliveryTest {
         $(withText("Успешно!")).waitUntil(visible, 15000);
         $("[data-test-id=success-notification]").shouldHave(text("Встреча успешно запланирована на"));
         $("[data-test-id=success-notification]").shouldHave(text(currentDate));
-        //$("[data-test-id='name'] input").setValue(registrationData.getFullName());
-        //$("[data-test-id='phone'] input").setValue(registrationData.getPhoneNumber());
-        //$("[data-test-id=agreement]").click();
+        $("[data-test-id='date'] input").sendKeys(selectAll, del);
+        $("[data-test-id='date'] input").setValue(currentDate + 1);
         $$(".form button").find(exactText("Запланировать")).click();
         $(withText("Необходимо подтверждение")).waitUntil(visible, 15000);
         $("[data-test-id=replan-notification]").shouldHave(text("У вас уже запланирована встреча на другую дату. Перепланировать?"));
