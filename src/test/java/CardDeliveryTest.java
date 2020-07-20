@@ -1,17 +1,22 @@
+import com.github.javafaker.Faker;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Keys;
 import ru.netology.DataGenerator;
 import ru.netology.DateUtils;
 import ru.netology.RegistrationByNamePhone;
 
+import java.util.Locale;
+
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.*;
+import static java.sql.Date.valueOf;
 import static org.openqa.selenium.Keys.chord;
 import static ru.netology.DataGenerator.Registration.generateByNamePhone;
 
 public class CardDeliveryTest {
     DataGenerator dataGenerator = new DataGenerator();
+    Faker faker = new Faker(new Locale("RU"));
     DateUtils currentDateTimePlusThreeDay = new DateUtils();
     RegistrationByNamePhone registrationData = generateByNamePhone("RU");
     private String currentDate = currentDateTimePlusThreeDay.localDateTime();
@@ -77,7 +82,7 @@ public class CardDeliveryTest {
         $("[data-test-id='city'] input").setValue("Хабаровск");
         $("[data-test-id='date'] input").sendKeys(selectAll, del);
         $("[data-test-id='date'] input").setValue(currentDate);
-        $("[data-test-id='name'] input").setValue(registrationData.getFullName());
+        $("[data-test-id='name'] input").setValue(String.valueOf(valueOf(faker.name().fullName())));
         $("[data-test-id='phone'] input").setValue(registrationData.getPhoneNumber());
         $("[data-test-id=agreement]").click();
         $$("button").find(exactText("Запланировать")).click();
