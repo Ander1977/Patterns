@@ -1,3 +1,5 @@
+package ru.netology;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -5,7 +7,7 @@ import lombok.Data;
 @Data
 
 public class RegistrationByNamePhone {
-    public String fullName;
-    public String phoneNumber;
+    private String fullName;
+    private String phoneNumber;
 
 }
