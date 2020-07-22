@@ -1,6 +1,5 @@
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Keys;
-import ru.netology.DataGenerator;
 import ru.netology.DateUtils;
 import ru.netology.RegistrationByNamePhone;
 
@@ -11,12 +10,10 @@ import static org.openqa.selenium.Keys.chord;
 import static ru.netology.DataGenerator.Registration.generateByNamePhone;
 
 public class CardDeliveryTest {
-    DataGenerator dataGenerator = new DataGenerator();
-    DateUtils currentDateTimePlusThreeDay = new DateUtils();
     RegistrationByNamePhone registrationData = generateByNamePhone("RU");
-    private String currentDate = currentDateTimePlusThreeDay.localDateTime();
-    private String selectAll = chord(Keys.CONTROL, "a");
-    private Keys del = Keys.DELETE;
+    private final String currentDate = DateUtils.localDateTime();
+    private final String selectAll = chord(Keys.CONTROL, "a");
+    private final Keys del = Keys.DELETE;
 
 
     @Test
