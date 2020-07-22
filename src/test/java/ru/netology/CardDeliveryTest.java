@@ -1,17 +1,18 @@
+package ru.netology;
+
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Keys;
-import ru.netology.DateUtils;
-import ru.netology.RegistrationByNamePhone;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.*;
 import static org.openqa.selenium.Keys.chord;
 import static ru.netology.DataGenerator.Registration.generateByNamePhone;
+import static ru.netology.DateUtils.localDateTime;
 
 public class CardDeliveryTest {
     RegistrationByNamePhone registrationData = generateByNamePhone("RU");
-    private final String currentDate = DateUtils.localDateTime();
+    private final String currentDate = localDateTime();
     private final String selectAll = chord(Keys.CONTROL, "a");
     private final Keys del = Keys.DELETE;
 
